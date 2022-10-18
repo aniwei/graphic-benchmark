@@ -12,6 +12,8 @@ import { Startup } from '@benchmarks/Startup'
 import { FirstRender } from '@benchmarks/FirstRender'
 import { Path } from '@benchmarks/Path'
 import { Text } from '@benchmarks/Text'
+import { Image } from '@benchmarks/Image'
+import { Animation } from '@benchmarks/Animation'
 
 import styles from './index.module.scss'
 
@@ -22,8 +24,11 @@ function App() {
       <BaseComparison />
       <Startup />
       <FirstRender />
-      <Path />
       <Text />
+      <Image />
+      <Path />
+      <Animation />
+
       <MatureSolution />
     </div>
   )

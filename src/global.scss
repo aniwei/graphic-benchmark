@@ -1,3 +1,13 @@
+@font-face{
+  font-family: "Noto Color Emoji";  
+  src: url("/assets/NotoColorEmoji.ttf");
+}
+
+@font-face{
+  font-family: "Roboto";  
+  src: url("/assets/Roboto-Regular.ttf");
+}
+
 :root {
   --default-font-color: #33333d;
   --default-border-color: #eeeeee;

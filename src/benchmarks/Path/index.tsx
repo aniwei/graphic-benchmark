@@ -26,7 +26,7 @@ export const Path = () => {
           y={100}
           r={64}
           w={4}
-          color={[0, 0, 0]}
+          color={`#000000`}
         />
       </div>
     </section>
