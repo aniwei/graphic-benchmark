@@ -1,3 +1,7 @@
+/*
+ * @Author: Aniwei
+ * @Date: 2022-10-19 10:15:50
+ */
 import CanvasKitInit, { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import { useEffect, useState, useRef } from 'react'
 import 'fpsmeter'
@@ -21,7 +25,7 @@ export const CanvaskitAnimation: React.FC<ICanvaskitAnimation> = (props) => {
     if (ref.current && rFPS.current) {
       CanvasKitInit({
         locateFile (file: string) {
-          return `http://localhost:5173/assets/canvaskit.wasm`
+          return `/assets/canvaskit.wasm`
         },
       }).then(CanvasKit => {
         const fps = new FPSMeter(rFPS.current!)
@@ -71,7 +75,7 @@ export const CanvaskitAnimation: React.FC<ICanvaskitAnimation> = (props) => {
       {
         perfs 
           ? <div>
-            <p>canvaskit-wasm 动画初始化性能</p>
+            <p>canvaskit-wasm 动画初始化耗时</p>
             <table>
               <thead>
                 <tr>

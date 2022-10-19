@@ -22,6 +22,6 @@
       "@components/*": ["./src/components/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "bin"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

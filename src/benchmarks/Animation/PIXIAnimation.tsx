@@ -1,5 +1,11 @@
+/*
+ * @Author: Aniwei
+ * @Date: 2022-10-19 10:15:50
+ */
+import * as PIXI from 'pixi.js'
 import CanvasKitInit, { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import { useEffect, useState, useRef } from 'react'
+import { AnimationManager } from 'lottie-pixi'
 import 'fpsmeter'
 
 
@@ -19,7 +25,37 @@ export const PIXIAnimation: React.FC<IPIXIAnimation> = (props) => {
 
   useEffect(() => {
     if (ref.current && rFPS.current) {
+      performance.mark('pixi:animation')
+      const app = new PIXI.Application({ 
+        width: 500,
+        height: 500,
+        antialias: true,
+      })
+      ref.current.appendChild(app.view)
+      const animationManager = new AnimationManager(app)
+      const fps = new FPSMeter(rFPS.current!)
+
+      // parse one or more anims
+      const anim1 = animationManager.parseAnimation({
+        keyframes: JSON.parse(animations),
+        infinite: true
+      })
+
+      performance.mark('pixi:animation')
       
+      app.stage.addChild(anim1.group)
+
+      app.ticker.add(() => {
+        fps.tick()
+      })
+
+      fps.show()
+      
+      const perfs = performance.getEntriesByName('pixi:animation')
+      set({
+        beginAt: perfs[0].startTime,
+        endAt: perfs[1].startTime
+      })
     }
   }, [])
 
@@ -30,7 +66,7 @@ export const PIXIAnimation: React.FC<IPIXIAnimation> = (props) => {
       {
         perfs 
           ? <div>
-            <p><pixi className="js"></pixi> 动画初始化性能</p>
+            <p>pixi.js 动画初始化性能</p>
             <table>
               <thead>
                 <tr>

@@ -15,14 +15,14 @@ export const Text: React.FC<IText> = () => {
       <h3>pixi.js</h3>
       <div>
         <PIXIText 
-          texts="🌞 The world is yours, and it's ours, but at it's root it's theirs"
+          texts="Skia now offers a WebAssembly build for easy deployment of our graphics APIs on the web."
         />
       </div>
 
       <h3>canvaskit-wasm</h3>
       <div>
         <CanvaskitText 
-          texts="🌞 The world is yours, and it's ours, but at it's root it's theirs"
+          texts="Skia now offers a WebAssembly build for easy deployment of our graphics APIs on the web."
         />
       </div>
       

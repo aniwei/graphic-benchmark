@@ -5,71 +5,62 @@
 import *  as PIXI from 'pixi.js'
 import { useEffect, useRef, useState } from 'react'
 
-interface IPIXIText {
-  texts: string
+interface IPIXIBatchRender {
 }
 
-export const PIXIText: React.FC<IPIXIText> = (props) => {
-  const { texts } = props
+export const PIXIBatchRender: React.FC<IPIXIBatchRender> = (props) => {
   const ref = useRef<HTMLDivElement>(null)
   const [perfs, set] = useState<{
     beginAt: number,
     endAt: number,
   } | null>(null)
+  const [update, setUpdate] = useState<{
+    beginUpdateAt?: number | null,
+    endUpdateAt?: number | null,
+  } | null>(null)
 
   useEffect(() => {
     if (ref.current) {
-      performance.mark('pixi:text')
+      performance.mark('pixi:batch')
       const app = new PIXI.Application({ 
         backgroundColor: 0xffffff,
-        height: 500,
+        height: 400,
         width: 800
       })
       ref.current.appendChild(app.view)
+
+      let c = 0
+      let r = 0
+
+      const children: PIXI.Text[] = []
       
-      const basic = new PIXI.Text(texts, new PIXI.TextStyle({
-        fontFamily: ['Roboto', 'Noto Color Emoji'],
-        fontSize: 24,
-        wordWrap: true,
-        wordWrapWidth: 350,
-        lineJoin: 'round',
-      }))
+      for (let i = 0; i < 5000; i++) {
+        const basic = new PIXI.Text(`O2 LAB`, new PIXI.TextStyle({
+          fontFamily: ['Roboto', 'Noto Color Emoji'],
+          fontSize: 12,
+          wordWrap: true,
+          wordWrapWidth: 350,
+          lineJoin: 'round',
+        }))
+  
+        basic.x = c * 50
+        basic.y = r * 12
 
-      basic.x = 0
-      basic.y = 0
+        children.push(basic)
+        
+        r++
+        if ((i + 1) % 32 === 0) {
+          c++
+          r = 0
+        }
+      }
 
-      app.stage.addChild(basic)
+      app.stage.addChild(...children)
 
-      const basic1 = new PIXI.Text(texts, new PIXI.TextStyle({
-        fontFamily: ['Roboto', 'Noto Color Emoji'],
-        fill: 0x0000ff,
-        fontSize: 30,
-        wordWrap: true,
-        wordWrapWidth: 600,
-        lineJoin: 'round',
-      }))
+      let current = performance.now()
 
-      basic1.x = 0
-      basic1.y = 120
-
-      app.stage.addChild(basic1)
-
-      const basic2 = new PIXI.Text(texts + '🎉', new PIXI.TextStyle({
-        fontFamily: ['Roboto', 'Noto Color Emoji'],
-        fill: 0x00ff00,
-        fontSize: 30,
-        wordWrap: true,
-        wordWrapWidth: 800,
-        lineJoin: 'round',
-      }))
-
-      basic2.x = 0
-      basic2.y = 240
-
-      app.stage.addChild(basic2)
-
-      performance.mark('pixi:text')
-      const perfs = performance.getEntriesByName('pixi:text')
+      performance.mark('pixi:batch')
+      const perfs = performance.getEntriesByName('pixi:batch')
 
       set({
         beginAt: perfs[0].startTime,
@@ -99,6 +90,8 @@ export const PIXIText: React.FC<IPIXIText> = (props) => {
                   <td>{Number(perfs.endAt).toFixed(0)}</td>
                   <td>{Number(perfs.endAt - perfs.beginAt).toFixed(0)}</td>
                 </tr>
+                
+               
               </tbody>
             </table>
           </div>

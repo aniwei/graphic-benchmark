@@ -21,12 +21,12 @@ export const CanvaskitText: React.FC<ICanvaskitText> = (props) => {
     if (ref.current) {
       CanvasKitInit({
         locateFile (file: string) {
-          return `http://localhost:5173/assets/canvaskit.wasm`
+          return `/assets/canvaskit.wasm`
         },
       }).then(CanvasKit => {
         Promise.all([
-          `http://localhost:5173/assets/NotoColorEmoji.ttf`,
-          `http://localhost:5173/assets/Roboto-Regular.ttf`
+          `/assets/NotoColorEmoji.ttf`,
+          `/assets/Roboto-Regular.ttf`
         ].map(url => {
           return fetch(url).then(resp => resp.arrayBuffer())
         })).then((fonts: ArrayBuffer[]) => {
@@ -45,7 +45,7 @@ export const CanvaskitText: React.FC<ICanvaskitText> = (props) => {
             textStyle: {
               color: CanvasKit.BLACK,
               fontFamilies: ['Roboto', 'Noto Color Emoji'],
-              fontSize: 30,
+              fontSize: 24,
             },
             textAlign: CanvasKit.TextAlign.Left,
             maxLines: 2,
@@ -57,26 +57,42 @@ export const CanvaskitText: React.FC<ICanvaskitText> = (props) => {
 
           const wrap = 350
           paragraph1.layout(wrap)
+          canvas.drawParagraph(paragraph1, 0, 0)
 
           const builder2 = CanvasKit.ParagraphBuilder.Make(new CanvasKit.ParagraphStyle({
             textStyle: {
               color: CanvasKit.BLUE,
               fontFamilies: ['Roboto', 'Noto Color Emoji'],
-              fontSize: 35,
+              fontSize: 30,
             },
             textAlign: CanvasKit.TextAlign.Left,
-            maxLines: 1,
-            ellipsis: '...',
           }), fontMgr!)
 
-          builder2.addText(texts)
+          builder2.addText(texts) 
           const paragraph2 = builder2.build()
 
           const wrap2 = 600
           paragraph2.layout(wrap2)
 
-          canvas.drawParagraph(paragraph1, 0, 0)
-          canvas.drawParagraph(paragraph2, 0, 80)
+          
+          canvas.drawParagraph(paragraph2, 0, 120)
+
+          const builder3 = CanvasKit.ParagraphBuilder.Make(new CanvasKit.ParagraphStyle({
+            textStyle: {
+              color: CanvasKit.parseColorString(`#00ff00`),
+              fontFamilies: ['Roboto', 'Noto Color Emoji'],
+              fontSize: 30,
+            },
+            textAlign: CanvasKit.TextAlign.Left,
+          }), fontMgr!)
+
+          builder3.addText(texts + '🎉') 
+          const paragraph3 = builder3.build()
+
+          const wrap3 = 800
+          paragraph3.layout(wrap3)
+
+          canvas.drawParagraph(paragraph3, 0, 240)
 
           surface?.flush()
           

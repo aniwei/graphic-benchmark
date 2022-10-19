@@ -66,7 +66,7 @@ export const CanvaskitPath: React.FC<ICanvaskitPath> = (props) => {
     if (ref.current) {
       CanvasKitInit({
         locateFile (file: string) {
-          return `http://localhost:5173/assets/canvaskit.wasm`
+          return `/assets/canvaskit.wasm`
         },
       }).then(CanvasKit => {
         performance.mark('canvaskit:path')

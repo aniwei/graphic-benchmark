@@ -14,20 +14,22 @@ import { Path } from '@benchmarks/Path'
 import { Text } from '@benchmarks/Text'
 import { Image } from '@benchmarks/Image'
 import { Animation } from '@benchmarks/Animation'
+import { BatchRender } from '@benchmarks/BatchRender'
 
 import styles from './index.module.scss'
 
 function App() {
   return (
     <div className={styles.app}>
-      <Introduction />
+      {/* <Introduction /> */}
       <BaseComparison />
-      <Startup />
+      {/* <Startup /> */}
       <FirstRender />
       <Text />
       <Image />
       <Path />
       <Animation />
+      <BatchRender />
 
       <MatureSolution />
     </div>
